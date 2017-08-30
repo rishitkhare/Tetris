@@ -55,7 +55,10 @@ class Block:
         for square in self.grid.blocks:
             if square.x == self.x + direction and square.y == self.y:
                 willMove = False
-        self.x += direction
+        if self.x + direction == self.grid.width or self.x + direction == -1:
+            willMove = False
+        if willMove:
+            self.x += direction
     def draw(self):
         x = self.x
         y = self.y
@@ -128,9 +131,21 @@ while running:
     moving_block.draw()
     if moving_block.moving == False:
         BG.blocks.append(moving_block)
-        moving_block = Block(BG, randint(0,235), randint(0,235), randint(0,235), randint(0,BG.width-1), -1)
+        moving_block = Block(BG, randint(0,235), randint(0,235), randint(0,235), randint(0,BG.width-1), 0)
     for square in BG.blocks:
         square.draw()
+
+    ### --- REMOVING COMPLETED LAYERS --- ###
+    for layer in range(0,BG.height):
+        counter = 0
+        removed = []
+        for square in BG.blocks:
+            if square.y == layer:
+                counter += 1
+                removed.append(square)
+        if counter == BG.width:
+            for square in removed:
+                BG.blocks.remove(square)
     pygame.display.flip()
     c.tick(30)
 
