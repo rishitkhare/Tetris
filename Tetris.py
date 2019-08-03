@@ -83,7 +83,7 @@ class TetraBlock:
         self.r = randint(0,255)
         self.g = randint(0,255)
         self.b = randint(0,255)
-        self.x = randint(1,self.window.width-1)
+        self.x = randint(1,self.window.width-5)
 
         block_types = [ [ (0,0), (0,1),  (0,-1),  (1,0)  ],  # T
                         [ (0,0), (0,1),  (0,2),   (0,-1) ],  # I
@@ -122,46 +122,38 @@ class TetraBlock:
 
 
 
-       
-window = pygame.display.set_mode([750,650])
-c = pygame.time.Clock()
-
-BG = Grid(12,20,30)
-moving_block = Block(BG, randint(0,235), randint(0,235), randint(0,235), randint(0,BG.width-1), 0)
-
-
-
-
 ### ---- MUSIC MIXTAPE (FIRE) ---- ###
-pygame.mixer.music.load("t.ogg")
+pygame.mixer.music.load("tetris_piano.wav")
 pygame.mixer.music.play(-1)
 
 
+### ---- GLOBAL VARIABLES ---- ###
+window = pygame.display.set_mode([750,650])
+c = pygame.time.Clock()
 
-
-
-
-
-
-
+BG = Grid(12,20,30) #12x30 grid of 30x30pxl squares
+moving_block = Block(BG, randint(0,235), randint(0,235), randint(0,235), randint(0,BG.width-1), 0)
 
 running = True
 
 ############# ------------- MAIN LOOP ------------- #############
 
 while running:
+    #Check arrow keys and quit button
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+            
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
             moving_block.moveSide(1)
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
             moving_block.moveSide(-1)
     
-    window.fill((100,100,100))
+    window.fill((170,170,170))
     
-    pygame.draw.rect(window, (255,255,255), BG.outline, 5)
+    
     keys = pygame.key.get_pressed()
+    
     if keys[pygame.K_DOWN]:
         if BG.grav_timer > 100:
             BG.grav_timer = 0
@@ -183,6 +175,7 @@ while running:
     for square in BG.blocks:
         square.draw()
 
+    pygame.draw.rect(window, (0,0, 0), BG.outline, 5)
     ### --- REMOVING COMPLETED LAYERS --- ###
     for layer in range(0,BG.height):
         counter = 0
