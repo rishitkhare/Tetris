@@ -154,8 +154,8 @@ class Block:
 
 
 ### ---- MUSIC MIXTAPE (FIRE) ---- ###
-# pygame.mixer.music.load("tetris_piano.wav")
-# pygame.mixer.music.play(-1)
+pygame.mixer.music.load("tetris_piano.wav")
+pygame.mixer.music.play(-1)
 
 
 ### ---- GLOBAL VARIABLES ---- ###
